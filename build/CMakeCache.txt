@@ -962,6 +962,12 @@ cvg_sim_msgs_SOURCE_DIR:STATIC=/home/esteban/tum_simulator_ws/src/tum-simulator-
 //Dependencies for the target
 diffdrive_plugin_6w_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libboost_thread.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;
 
+//Value Computed by CMake
+drone_application_BINARY_DIR:STATIC=/home/esteban/tum_simulator_ws/build/drone_application
+
+//Value Computed by CMake
+drone_application_SOURCE_DIR:STATIC=/home/esteban/tum_simulator_ws/src/drone_application
+
 //The directory containing a CMake configuration file for dynamic_reconfigure.
 dynamic_reconfigure_DIR:PATH=/opt/ros/indigo/share/dynamic_reconfigure/cmake
 
@@ -1267,7 +1273,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=11
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=12
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

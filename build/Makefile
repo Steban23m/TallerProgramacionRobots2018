@@ -800,6 +800,71 @@ takeoff/fast:
 .PHONY : takeoff/fast
 
 #=============================================================================
+# Target rules for targets named move3
+
+# Build rule for target.
+move3: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move3
+.PHONY : move3
+
+# fast build rule for target.
+move3/fast:
+	$(MAKE) -f drone_application/CMakeFiles/move3.dir/build.make drone_application/CMakeFiles/move3.dir/build
+.PHONY : move3/fast
+
+#=============================================================================
+# Target rules for targets named move4
+
+# Build rule for target.
+move4: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move4
+.PHONY : move4
+
+# fast build rule for target.
+move4/fast:
+	$(MAKE) -f drone_application/CMakeFiles/move4.dir/build.make drone_application/CMakeFiles/move4.dir/build
+.PHONY : move4/fast
+
+#=============================================================================
+# Target rules for targets named move5
+
+# Build rule for target.
+move5: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move5
+.PHONY : move5
+
+# fast build rule for target.
+move5/fast:
+	$(MAKE) -f drone_application/CMakeFiles/move5.dir/build.make drone_application/CMakeFiles/move5.dir/build
+.PHONY : move5/fast
+
+#=============================================================================
+# Target rules for targets named takeoff_land
+
+# Build rule for target.
+takeoff_land: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 takeoff_land
+.PHONY : takeoff_land
+
+# fast build rule for target.
+takeoff_land/fast:
+	$(MAKE) -f drone_application/CMakeFiles/takeoff_land.dir/build.make drone_application/CMakeFiles/takeoff_land.dir/build
+.PHONY : takeoff_land/fast
+
+#=============================================================================
+# Target rules for targets named takeoff_spin
+
+# Build rule for target.
+takeoff_spin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 takeoff_spin
+.PHONY : takeoff_spin
+
+# fast build rule for target.
+takeoff_spin/fast:
+	$(MAKE) -f drone_application/CMakeFiles/takeoff_spin.dir/build.make drone_application/CMakeFiles/takeoff_spin.dir/build
+.PHONY : takeoff_spin/fast
+
+#=============================================================================
 # Target rules for targets named _ardrone_autonomy_generate_messages_check_deps_CamSelect
 
 # Build rule for target.
@@ -2370,6 +2435,11 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... takeoff"
+	@echo "... move3"
+	@echo "... move4"
+	@echo "... move5"
+	@echo "... takeoff_land"
+	@echo "... takeoff_spin"
 	@echo "... _ardrone_autonomy_generate_messages_check_deps_CamSelect"
 	@echo "... _ardrone_autonomy_generate_messages_check_deps_FlightAnim"
 	@echo "... _ardrone_autonomy_generate_messages_check_deps_LedAnim"
