@@ -95,23 +95,23 @@ int main(int argc, char **argv){
     }
 
     //hover(2);
-    moveDron(0,0,0.1,0,0,0,loop_rate);
+    moveDron(0,0,0.3,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
 
     //Arista 1
     moveDron(0.1,0,0,0,0,0,loop_rate);
-    rotateDronAngle(false,90,loop_rate);
-    moveDron(0.1,0,0,0,0,0,loop_rate);
-    rotateDronAngle(false,90,loop_rate);
-    moveDron(0.1,0,0,0,0,0,loop_rate);
-    rotateDronAngle(false,90,loop_rate);
-    moveDron(0.1,0,0,0,0,0,loop_rate);
-    rotateDronAngle(false,90,loop_rate);
+    //rotateDronAngle(false,90,loop_rate);
+    moveDron(0,0.1,0,0,0,0,loop_rate);
+    //rotateDronAngle(false,90,loop_rate);
+    moveDron(-0.1,0,0,0,0,0,loop_rate);
+    //rotateDronAngle(false,90,loop_rate);
+    moveDron(0,-0.1,0,0,0,0,loop_rate);
+    //rotateDronAngle(false,90,loop_rate);
 
 
 
     hover(2);
-    moveDron(0,0,-0.1s,0,0,0,loop_rate);
+    moveDron(0,0,-0.3,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
     land();
     break;

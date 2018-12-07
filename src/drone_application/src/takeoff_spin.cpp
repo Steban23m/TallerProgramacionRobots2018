@@ -57,7 +57,6 @@ int main(int argc, char **argv){
   velocity_publisher = n.advertise<geometry_msgs::Twist>("/cmd_vel", 100); // initialize to send the Control Input
 
   ros::Rate loop_rate(10);
-
   // Subscribing the data
   pose_subscriber = n.subscribe("/ardrone/navdata", 200, poseCallback);	//initialize to receive processed sensor data
 
@@ -74,8 +73,7 @@ int main(int argc, char **argv){
     loop_rate.sleep();
 
     ros::Time start = ros::Time::now();
-    while(ros::Time::now() - start < ros::Duration(5.0))
-    {
+    while(ros::Time::now() - start < ros::Duration(5.0)){
   			double init_time=ros::Time::now().toSec();  // epoch time
         ROS_INFO("NavData Status %d", drone_navdata.state);
 
@@ -95,11 +93,13 @@ int main(int argc, char **argv){
   			}//time loop
 
   	//hover(2);
-    moveDron(0,0,1,0,0,0,loop_rate);
+    moveDron(0,0,0.2,0,0,0,loop_rate);
+    moveDron(0.2,0,0,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
     rotateDron360(false,loop_rate);
     hover(2);
-    moveDron(0,0,-1,0,0,0,loop_rate);
+
+    moveDron(0,0,-0.1,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
 
     land();
@@ -246,7 +246,7 @@ void rotateDron360(bool clockwise, ros::Rate loop_rate){
   do
   {
     ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-      move(0,0,0,0,0,direction*0.3);
+      move(0,0,0,0,0,direction*0.1);
       ros::spinOnce();
       loop_rate.sleep();
 
