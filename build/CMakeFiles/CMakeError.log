@@ -1,0 +1,149 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1230376318/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1230376318.dir/build.make CMakeFiles/cmTryCompileExec1230376318.dir/build
+make[1]: se ingresa al directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+/usr/bin/cmake -E cmake_progress_report /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1230376318.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec1230376318.dir/CheckSymbolExists.c.o   -c /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTryCompileExec1230376318
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1230376318.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec1230376318.dir/CheckSymbolExists.c.o  -o cmTryCompileExec1230376318 -rdynamic 
+CMakeFiles/cmTryCompileExec1230376318.dir/CheckSymbolExists.c.o: En la función `main':
+CheckSymbolExists.c:(.text+0x16): referencia a `pthread_create' sin definir
+collect2: error: ld returned 1 exit status
+make[1]: *** [cmTryCompileExec1230376318] Error 1
+make[1]: se sale del directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+make: *** [cmTryCompileExec1230376318/fast] Error 2
+
+File /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2657274168/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2657274168.dir/build.make CMakeFiles/cmTryCompileExec2657274168.dir/build
+make[1]: se ingresa al directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+/usr/bin/cmake -E cmake_progress_report /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2657274168.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTryCompileExec2657274168.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2657274168
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2657274168.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTryCompileExec2657274168.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2657274168 -rdynamic -lpthreads 
+/usr/bin/ld: no se puede encontrar -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [cmTryCompileExec2657274168] Error 1
+make[1]: se sale del directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+make: *** [cmTryCompileExec2657274168/fast] Error 2
+
+
+Determining if the Q_WS_WIN exist failed with the following output:
+Change Dir: /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec145695404/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec145695404.dir/build.make CMakeFiles/cmTryCompileExec145695404.dir/build
+make[1]: se ingresa al directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+/usr/bin/cmake -E cmake_progress_report /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec145695404.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec145695404.dir/CheckSymbolExists.cxx.o -c /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_WIN’ was not declared in this scope
+   return ((int*)(&Q_WS_WIN))[argc];
+                   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec145695404.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: se sale del directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+make: *** [cmTryCompileExec145695404/fast] Error 2
+
+File /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <QtCore/qglobal.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef Q_WS_WIN
+  return ((int*)(&Q_WS_WIN))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the Q_WS_QWS exist failed with the following output:
+Change Dir: /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2127977817/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2127977817.dir/build.make CMakeFiles/cmTryCompileExec2127977817.dir/build
+make[1]: se ingresa al directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+/usr/bin/cmake -E cmake_progress_report /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2127977817.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec2127977817.dir/CheckSymbolExists.cxx.o -c /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_QWS’ was not declared in this scope
+   return ((int*)(&Q_WS_QWS))[argc];
+                   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec2127977817.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: se sale del directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+make: *** [cmTryCompileExec2127977817/fast] Error 2
+
+File /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <QtCore/qglobal.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef Q_WS_QWS
+  return ((int*)(&Q_WS_QWS))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the Q_WS_MAC exist failed with the following output:
+Change Dir: /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2986216649/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2986216649.dir/build.make CMakeFiles/cmTryCompileExec2986216649.dir/build
+make[1]: se ingresa al directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+/usr/bin/cmake -E cmake_progress_report /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2986216649.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec2986216649.dir/CheckSymbolExists.cxx.o -c /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_MAC’ was not declared in this scope
+   return ((int*)(&Q_WS_MAC))[argc];
+                   ^
+make[1]: *** [CMakeFiles/cmTryCompileExec2986216649.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: se sale del directorio «/home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp»
+make: *** [cmTryCompileExec2986216649/fast] Error 2
+
+File /home/esteban/tum_simulator_ws/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <QtCore/qglobal.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef Q_WS_MAC
+  return ((int*)(&Q_WS_MAC))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+

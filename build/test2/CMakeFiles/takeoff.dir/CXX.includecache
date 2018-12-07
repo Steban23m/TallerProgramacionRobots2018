@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/esteban/tum_simulator_ws/src/test2/src/takeoff.cpp
+ros/ros.h
+/home/esteban/tum_simulator_ws/src/test2/src/ros/ros.h
+std_msgs/Empty.h
+/home/esteban/tum_simulator_ws/src/test2/src/std_msgs/Empty.h
+stdio.h
+-
+sstream
+-
+geometry_msgs/Twist.h
+/home/esteban/tum_simulator_ws/src/test2/src/geometry_msgs/Twist.h
+geometry_msgs/Vector3.h
+/home/esteban/tum_simulator_ws/src/test2/src/geometry_msgs/Vector3.h
+ardrone_autonomy/Navdata.h
+/home/esteban/tum_simulator_ws/src/test2/src/ardrone_autonomy/Navdata.h
+

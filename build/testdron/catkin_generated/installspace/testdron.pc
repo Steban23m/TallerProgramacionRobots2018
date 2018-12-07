@@ -1,0 +1,8 @@
+prefix=/home/esteban/tum_simulator_ws/install
+
+Name: testdron
+Description: Description of testdron
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/esteban/tum_simulator_ws/install/lib 
+Requires: 

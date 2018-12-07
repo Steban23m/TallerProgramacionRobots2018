@@ -1,0 +1,2 @@
+ardrone_autonomy:ardrone_tutorials:test2:tum-simulator-indigo/cvg_sim_gazebo:tum-simulator-indigo/cvg_sim_gazebo_plugins:tum-simulator-indigo/cvg_sim_msgs:tum-simulator-indigo/message_to_tf:tum-simulator-indigo/tum_simulator:tum_ardrone
+-DCATKIN_DEVEL_PREFIX=/home/esteban/tum_simulator_ws/devel -DCMAKE_INSTALL_PREFIX=/home/esteban/tum_simulator_ws/install -G Unix Makefiles
