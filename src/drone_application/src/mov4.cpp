@@ -95,23 +95,23 @@ int main(int argc, char **argv){
     }
 
     //hover(2);
-    moveDron(0,0,1,0,0,0,loop_rate);
+    moveDron(0,0,0.1,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
 
     //Arista 1
-    moveDron(1,0,0,0,0,0,loop_rate);
+    moveDron(0.1,0,0,0,0,0,loop_rate);
     rotateDronAngle(false,90,loop_rate);
-    moveDron(1,0,0,0,0,0,loop_rate);
+    moveDron(0.1,0,0,0,0,0,loop_rate);
     rotateDronAngle(false,90,loop_rate);
-    moveDron(1,0,0,0,0,0,loop_rate);
+    moveDron(0.1,0,0,0,0,0,loop_rate);
     rotateDronAngle(false,90,loop_rate);
-    moveDron(1,0,0,0,0,0,loop_rate);
+    moveDron(0.1,0,0,0,0,0,loop_rate);
     rotateDronAngle(false,90,loop_rate);
 
 
-    
+
     hover(2);
-    moveDron(0,0,-1,0,0,0,loop_rate);
+    moveDron(0,0,-0.1s,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
     land();
     break;
@@ -347,7 +347,7 @@ void rotateDronAngle(bool clockwise, float angle, ros::Rate loop_rate){
 
   do{
     ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-    move(0,0,0,0,0,direction*0.5);
+    move(0,0,0,0,0,direction*0.1);
     ros::spinOnce();
     loop_rate.sleep();
     float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
