@@ -347,7 +347,7 @@ void rotateDronAngle(bool clockwise, float angle, ros::Rate loop_rate){
 
   do{
     ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-    move(0,0,0,0,0,direction*0.1);
+    move(0,0,0,0,0,direction*0.01);
     ros::spinOnce();
     loop_rate.sleep();
     float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
@@ -411,7 +411,7 @@ while(true)
     /*      do{
     ROS_INFO("Adjusting Rotation : %f", drone_navdata.rotZ);
     ROS_INFO("Desired value : %f", initialZrot+90);
-    move(0,0,0,ax,ay,-0.1);
+    move(0,0,0,ax,ay,-0.01);
     ros::spinOnce();
     loop_rate.sleep();
 
