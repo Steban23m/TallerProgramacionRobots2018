@@ -9,19 +9,19 @@
 #include "ardrone_autonomy/Navdata.h"
 
 /**
- * This tutorial demonstrates simple sending of messages over the ROS system.
- */
+* This tutorial demonstrates simple sending of messages over the ROS system.
+*/
 
- /*Mensajes*/
- std_msgs::Empty emp_msg;
- geometry_msgs::Twist vel_msg;			// variable in the command velocity class
+/*Mensajes*/
+std_msgs::Empty emp_msg;
+geometry_msgs::Twist vel_msg;			// variable in the command velocity class
 
- // Variables for Publishing
- ros::Publisher T_pub_empty;				//take off publisher
- ros::Publisher L_pub_empty;				//landing publisher
- ros::Publisher velocity_publisher;		// velocity publisher
+// Variables for Publishing
+ros::Publisher T_pub_empty;				//take off publisher
+ros::Publisher L_pub_empty;				//landing publisher
+ros::Publisher velocity_publisher;		// velocity publisher
 
- ros::Subscriber pose_subscriber;		// ardrone navdata subsciber
+ros::Subscriber pose_subscriber;		// ardrone navdata subsciber
 
 
 /*Variables a utilizar*/
@@ -39,7 +39,8 @@ void takeoff(ros::Publisher takeoff_pub);
 void land();
 void moveDron(float lx, float ly, float lz, float ax, float ay, float az, ros::Rate loop_rate);
 void rotateDron(float ax, float ay, float az, ros::Rate loop_rate);
-
+float distanciaEntreDosAngulosRadianes(float ang1, float ang2);
+void rotateDronAngle(bool clockwise, float angle, ros::Rate loop_rate);
 void rotateDron360(bool clockwise, ros::Rate loop_rate);
 void poseCallback(const ardrone_autonomy::Navdata::ConstPtr & pose_message);		// drone actual data
 
@@ -61,42 +62,43 @@ int main(int argc, char **argv){
   pose_subscriber = n.subscribe("/ardrone/navdata", 200, poseCallback);	//initialize to receive processed sensor data
 
 
- int count = 0;
+  int count = 0;
 
 
- while (ros::ok()) {
+  while (ros::ok()) {
 
     ROS_INFO("Calling take off");
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
-  	ros::Rate loop_rate(10);
+    ros::Rate loop_rate(10);
     //Probar sleep
     loop_rate.sleep();
 
     ros::Time start = ros::Time::now();
     while(ros::Time::now() - start < ros::Duration(5.0)){
-  			double init_time=ros::Time::now().toSec();  // epoch time
-        ROS_INFO("NavData Status %d", drone_navdata.state);
+      double init_time=ros::Time::now().toSec();  // epoch time
+      ROS_INFO("NavData Status %d", drone_navdata.state);
 
-          //ROS_INFO("Time Loop");
-  				takeoff_pub.publish(emp_msg); /* launches the drone */
-          ROS_INFO("Published");
+      //ROS_INFO("Time Loop");
+      takeoff_pub.publish(emp_msg); /* launches the drone */
+      ROS_INFO("Published");
 
 
-  				ros::spinOnce(); // feedback
-  				loop_rate.sleep();
-          if(drone_navdata.state == 3){
-              ROS_INFO("Ardrone Taking off");
-              ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
-              break;
-          }
+      ros::spinOnce(); // feedback
+      loop_rate.sleep();
+      if(drone_navdata.state == 3){
+        ROS_INFO("Ardrone Taking off");
+        ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
+        break;
+      }
 
-  			}//time loop
+    }//time loop
 
-  	//hover(2);
+    //hover(2);
     moveDron(0,0,0.2,0,0,0,loop_rate);
     moveDron(0.2,0,0,0,0,0,loop_rate);
     ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
-    rotateDron360(false,loop_rate);
+  //  rotateDron360(false,loop_rate);
+    rotateDronAngle(false,90,loop_rate);
     hover(2);
 
     moveDron(0,0,-0.1,0,0,0,loop_rate);
@@ -106,7 +108,7 @@ int main(int argc, char **argv){
 
     break;
 
-}
+  }
 
 
 
@@ -117,91 +119,91 @@ int main(int argc, char **argv){
 void move(float lx, float ly, float lz, float ax, float ay, float az )
 {
 
-	//defining the linear velocity
-	vel_msg.linear.x = lx;
-	vel_msg.linear.y = ly;
-	vel_msg.linear.z = lz;
+  //defining the linear velocity
+  vel_msg.linear.x = lx;
+  vel_msg.linear.y = ly;
+  vel_msg.linear.z = lz;
 
-	//defining the linear velocity
-	vel_msg.angular.x = ax;
-	vel_msg.angular.y = ay;
-	vel_msg.angular.z = az;
+  //defining the linear velocity
+  vel_msg.angular.x = ax;
+  vel_msg.angular.y = ay;
+  vel_msg.angular.z = az;
 
-	velocity_publisher.publish(vel_msg);
+  velocity_publisher.publish(vel_msg);
 
 }
 
 
 void hover(int timee){
 
-	double t0 = ros::Time::now().toSec(); //ros has a 'Time' function in which the current time can be found by using 'now'.                                         							we need time in sec to compute hence 'tosec'
-	double t1;
-	ros::Rate loop_rate(200);
-	do{
+  double t0 = ros::Time::now().toSec(); //ros has a 'Time' function in which the current time can be found by using 'now'.                                         							we need time in sec to compute hence 'tosec'
+  double t1;
+  ros::Rate loop_rate(200);
+  do{
 
-		t1 = ros::Time::now().toSec(); //ros has a 'Time' function in which the current time can be found by using 'now'.                                         							we need time in sec to compute hence 'tosec'
+    t1 = ros::Time::now().toSec(); //ros has a 'Time' function in which the current time can be found by using 'now'.                                         							we need time in sec to compute hence 'tosec'
 
-		vel_msg.linear.x = 0;
-		vel_msg.linear.y = 0;
-		vel_msg.linear.z = 0;
+    vel_msg.linear.x = 0;
+    vel_msg.linear.y = 0;
+    vel_msg.linear.z = 0;
 
-		vel_msg.angular.x = 0;
-		vel_msg.angular.y = 0;
-		vel_msg.angular.z = 0;
+    vel_msg.angular.x = 0;
+    vel_msg.angular.y = 0;
+    vel_msg.angular.z = 0;
 
-	velocity_publisher.publish(vel_msg);
+    velocity_publisher.publish(vel_msg);
 
-	ros::spinOnce(); //if this function is not mentioned the function will stay in the buffer and cannot be able to publish
-	loop_rate.sleep();
+    ros::spinOnce(); //if this function is not mentioned the function will stay in the buffer and cannot be able to publish
+    loop_rate.sleep();
 
-	}while(t1 <= (t0+timee));
+  }while(t1 <= (t0+timee));
 
-	//ros::spinOnce();
+  //ros::spinOnce();
 }
 
 void land()
 {
   ROS_INFO("Landing");
   ROS_INFO("Altitude %d (cm)", drone_navdata.altd);
-	ros::Rate loop_rate(10);
-	while (ros::ok())
-		{
-			double init_time=ros::Time::now().toSec();
-			double time;
-			while (time < (init_time+5.0)) /* Send command for five seconds*/
-			{
-				L_pub_empty.publish(emp_msg); /* lands the drone */
-				ros::spinOnce();
-				loop_rate.sleep();
-				time = ros::Time::now().toSec();
-			}//time loop
-		ROS_INFO("Ardrone landed");
-		exit(0);
-		}//ros::ok loop
+  ros::Rate loop_rate(10);
+  while (ros::ok())
+  {
+    double init_time=ros::Time::now().toSec();
+    double time;
+    while (time < (init_time+5.0)) /* Send command for five seconds*/
+    {
+      L_pub_empty.publish(emp_msg); /* lands the drone */
+      ros::spinOnce();
+      loop_rate.sleep();
+      time = ros::Time::now().toSec();
+    }//time loop
+    ROS_INFO("Ardrone landed");
+    exit(0);
+  }//ros::ok loop
 
 }
 
 void takeoff(ros::Publisher T_pub_empty)
 {
   ROS_INFO("Calling take off");
-	ros::Rate loop_rate(10);
-	while (ros::ok())
-		{
-			double init_time=ros::Time::now().toSec();  // epoch time
-			double time;
-			while (time < (init_time+5.0)) /* Send command for five seconds*/
-			{
-        ROS_INFO("Time Loop");
-				T_pub_empty.publish(emp_msg); /* launches the drone */
-        ROS_INFO("Published");
-				ros::spinOnce(); // feedback
-				loop_rate.sleep();
-				time = ros::Time::now().toSec();
-			}//time loop
-		ROS_INFO("ARdrone launched");
-		exit(0);
-		}//ros::ok loop
-	hover(2);
+  ros::Rate loop_rate(10);
+  while (ros::ok())
+  {
+    double init_time=ros::Time::now().toSec();  // epoch time
+    double time;
+    while (time < (init_time+5.0)) /* Send command for five seconds*/
+    {
+      ROS_INFO("Time Loop");
+      T_pub_empty.publish(emp_msg); /* launches the drone */
+      ROS_INFO("Published");
+      ros::spinOnce(); // feedback
+      loop_rate.sleep();
+      time = ros::Time::now().toSec();
+    }//time loop
+    ROS_INFO("ARdrone launched");
+    exit(0);
+  }//ros::ok loop
+  hover(2);
 
 }
 
@@ -213,10 +215,10 @@ void moveDron(float lx, float ly, float lz, float ax, float ay, float az, ros::R
   while(ros::Time::now() - start_move < ros::Duration(4.0))
   {
     //ROS_INFO("Move Dron %d", countdown);
-      move(lx,ly,lz,ax,ay,az);
-      ros::spinOnce();
-      loop_rate.sleep();
-      countdown++;
+    move(lx,ly,lz,ax,ay,az);
+    ros::spinOnce();
+    loop_rate.sleep();
+    countdown++;
   }
 
 }
@@ -246,40 +248,40 @@ void rotateDron360(bool clockwise, ros::Rate loop_rate){
   do
   {
     ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-      move(0,0,0,0,0,direction*0.1);
-      ros::spinOnce();
-      loop_rate.sleep();
+    move(0,0,0,0,0,direction*0.1);
+    ros::spinOnce();
+    loop_rate.sleep();
 
-      float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
-      ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
-      if(distanceFromAngle <= 1){
-          ROS_INFO("Rotation 180 Accomplished : %f", drone_navdata.rotZ);
-          //ROS_INFO("DIfference rotation : %f", degreeDiference);
-          break;
-        }
+    float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
+    ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
+    if(distanceFromAngle <= 1){
+      ROS_INFO("Rotation 180 Accomplished : %f", drone_navdata.rotZ);
+      //ROS_INFO("DIfference rotation : %f", degreeDiference);
+      break;
+    }
 
-      }while(true);
+  }while(true);
 
-      finalZRotation = initialZrot;
-      do
-      {
-        ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-          move(0,0,0,0,0,direction);
-          ros::spinOnce();
-          loop_rate.sleep();
+  finalZRotation = initialZrot;
+  do
+  {
+    ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
+    move(0,0,0,0,0,direction);
+    ros::spinOnce();
+    loop_rate.sleep();
 
-          float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
-          ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
-          if(distanceFromAngle <= 1){
-              ROS_INFO("Rotation 180 Accomplished : %f", drone_navdata.rotZ);
-              //ROS_INFO("DIfference rotation : %f", degreeDiference);
-              break;
-            }
+    float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
+    ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
+    if(distanceFromAngle <= 1){
+      ROS_INFO("Rotation 180 Accomplished : %f", drone_navdata.rotZ);
+      //ROS_INFO("DIfference rotation : %f", degreeDiference);
+      break;
+    }
 
-          }while(true);
+  }while(true);
 
-            ROS_INFO("Rotate 360 finished");
-  }
+  ROS_INFO("Rotate 360 finished");
+}
 
 
 
@@ -296,102 +298,159 @@ void rotateDron(float ax, float ay, float az, ros::Rate loop_rate){
   else{
     finalZRotation = initialZrot + 90;
   }
-/*  if(initialZrot < 0){
-    initialZrot = initialZrot + 360;
-  }*/
+  /*  if(initialZrot < 0){
+  initialZrot = initialZrot + 360;
+}*/
 
 
 
-  ROS_INFO("Rotate Dron");
-  ROS_INFO("Z rotation Initial : %f", initialZrot);
-  ROS_INFO("Z rotation Destination : %f", finalZRotation);
+ROS_INFO("Rotate Dron");
+ROS_INFO("Z rotation Initial : %f", initialZrot);
+ROS_INFO("Z rotation Destination : %f", finalZRotation);
 
-  float prevZvalue = initialZrot;
+float prevZvalue = initialZrot;
 
-  while(true)
-  {
-    ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-      move(0,0,0,ax,ay,az);
-      ros::spinOnce();
-      loop_rate.sleep();
-      countdown++;
-
-
-      float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
-      ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
-      if(distanceFromAngle <= 2){
-        ROS_INFO("Rotation Accomplished : %f", drone_navdata.rotZ);
-          ROS_INFO("Rotated  90  : %f", drone_navdata.rotZ);
-          float degreeDiference = distanceFromAngle;
+while(true)
+{
+  ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
+  move(0,0,0,ax,ay,az);
+  ros::spinOnce();
+  loop_rate.sleep();
+  countdown++;
 
 
-          ROS_INFO("DIfference rotation : %f", degreeDiference);
-  /*      do{
-          ROS_INFO("Adjusting Rotation : %f", drone_navdata.rotZ);
-          ROS_INFO("Desired value : %f", initialZrot+90);
-          move(0,0,0,ax,ay,-0.1);
-          ros::spinOnce();
-          loop_rate.sleep();
+  float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
+  ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
+  if(distanceFromAngle <= 2){
+    ROS_INFO("Rotation Accomplished : %f", drone_navdata.rotZ);
+    ROS_INFO("Rotated  90  : %f", drone_navdata.rotZ);
+    float degreeDiference = distanceFromAngle;
 
-        }while (equality(initialZrot+90,drone_navdata.rotZ,0.5));
+
+    ROS_INFO("DIfference rotation : %f", degreeDiference);
+    /*      do{
+    ROS_INFO("Adjusting Rotation : %f", drone_navdata.rotZ);
+    ROS_INFO("Desired value : %f", initialZrot+90);
+    move(0,0,0,ax,ay,-0.1);
+    ros::spinOnce();
+    loop_rate.sleep();
+
+  }while (equality(initialZrot+90,drone_navdata.rotZ,0.5));
   */
-          ROS_INFO("Rotated 90  : %f", drone_navdata.rotZ);
-          ros::spinOnce();
-          loop_rate.sleep();
-          break;
-      }
+  ROS_INFO("Rotated 90  : %f", drone_navdata.rotZ);
+  ros::spinOnce();
+  loop_rate.sleep();
+  break;
   }
-
+  }
 }
 
 void poseCallback(const ardrone_autonomy::Navdata::ConstPtr & pose_message )
 {
-//  ROS_INFO("POS CallBack");
-	drone_navdata.vx	= 	pose_message->vx;
-	drone_navdata.vy 	= 	pose_message->vy;
-	drone_navdata.vz 	= 	pose_message->vz;
-	drone_navdata.ax	= 	pose_message->ax;
-	drone_navdata.ay 	= 	pose_message->ay;
-	drone_navdata.az 	= 	pose_message->az;
-	drone_navdata.rotX	= 	pose_message->rotX;
-	drone_navdata.rotY	= 	pose_message->rotY;
-	drone_navdata.rotZ	= 	pose_message->rotZ;
-	drone_navdata.magX	= 	pose_message->magX;
-	drone_navdata.magY	= 	pose_message->magY;
-	drone_navdata.magZ	= 	pose_message->magZ;
-	drone_navdata.altd 	= 	pose_message->altd;
-	drone_navdata.tm	= 	pose_message->tm;
-	drone_navdata.header	= 	pose_message->header;
+  //  ROS_INFO("POS CallBack");
+  drone_navdata.vx	= 	pose_message->vx;
+  drone_navdata.vy 	= 	pose_message->vy;
+  drone_navdata.vz 	= 	pose_message->vz;
+  drone_navdata.ax	= 	pose_message->ax;
+  drone_navdata.ay 	= 	pose_message->ay;
+  drone_navdata.az 	= 	pose_message->az;
+  drone_navdata.rotX	= 	pose_message->rotX;
+  drone_navdata.rotY	= 	pose_message->rotY;
+  drone_navdata.rotZ	= 	pose_message->rotZ;
+  drone_navdata.magX	= 	pose_message->magX;
+  drone_navdata.magY	= 	pose_message->magY;
+  drone_navdata.magZ	= 	pose_message->magZ;
+  drone_navdata.altd 	= 	pose_message->altd;
+  drone_navdata.tm	= 	pose_message->tm;
+  drone_navdata.header	= 	pose_message->header;
   drone_navdata.state	= 	pose_message->state;
 
-	drone_navdata.batteryPercent= pose_message->batteryPercent;
+  drone_navdata.batteryPercent= pose_message->batteryPercent;
 }
 
 
-    /*Circuito*/
+/*Circuito*/
 /*
-    moveDron(1,0,0,0,0,0,loop_rate);
-  //  moveDron(1,0,0,0,0,0,loop_rate);
-  //  moveDron(1,0,0,0,0,0,loop_rate);
-    //moveDron(1,0,0,0,0,0,loop_rate);
-    moveDron(0,0,0,0,0,0.5,loop_rate);
-    moveDron(0,1,0,0,0,0,loop_rate);
-    //moveDron(0,0,1,0,0,0,loop_rate);
-    //moveDron(0,0,1,0,0,0,loop_rate);
-    //moveDron(0,0,1,0,0,0,loop_rate);
-    moveDron(0,0,0,0,0,0.5,loop_rate);
-    moveDron(-1,0,0,0,0,0,loop_rate);
-    moveDron(0,0,0,0,0,0.5,loop_rate);
-    moveDron(1,0,0,0,0,0,loop_rate);
-    moveDron(0,0,0,0,0,0.5,loop_rate);
-    //moveDron(0,1,0,0,0,0,loop_rate);
-    //moveDron(0,1,0,0,0,0,loop_rate);
-    //moveDron(0,1,0,0,0,0,loop_rate);
-    moveDron(0,-1,0,0,0,0,loop_rate);
+moveDron(1,0,0,0,0,0,loop_rate);
+//  moveDron(1,0,0,0,0,0,loop_rate);
+//  moveDron(1,0,0,0,0,0,loop_rate);
+//moveDron(1,0,0,0,0,0,loop_rate);
+moveDron(0,0,0,0,0,0.5,loop_rate);
+moveDron(0,1,0,0,0,0,loop_rate);
+//moveDron(0,0,1,0,0,0,loop_rate);
+//moveDron(0,0,1,0,0,0,loop_rate);
+//moveDron(0,0,1,0,0,0,loop_rate);
+moveDron(0,0,0,0,0,0.5,loop_rate);
+moveDron(-1,0,0,0,0,0,loop_rate);
+moveDron(0,0,0,0,0,0.5,loop_rate);
+moveDron(1,0,0,0,0,0,loop_rate);
+moveDron(0,0,0,0,0,0.5,loop_rate);
+//moveDron(0,1,0,0,0,0,loop_rate);
+//moveDron(0,1,0,0,0,0,loop_rate);
+//moveDron(0,1,0,0,0,0,loop_rate);
+moveDron(0,-1,0,0,0,0,loop_rate);
 
 */
 
+void rotateDronAngle(bool clockwise, float angle, ros::Rate loop_rate){
+
+  float initialZrot = drone_navdata.rotZ;
+  int direction;
+  if (clockwise) {
+    direction=-1;
+  }
+  else{
+    direction=1;
+  }
+  //Avanzar 180 dos veces
+
+  float finalZRotation = convertirAngulos(initialZrot + angle*direction);
+  ROS_INFO("Rotate Dron");
+
+  ROS_INFO("Z rotation Initial : %f", initialZrot);
+  ROS_INFO("Z rotation Destination : %f", finalZRotation);
+  float currentAngle = initialZrot;
+  float speed=0.1;
+  float angular_speed = speed*2*PI/360;
+  float currentAngleRadians = initialZrot*2*PI/360;
+  float relative_angleradians = finalZRotation*2*PI/360;
+
+  //ROS_INFO("Distancia entre angulos: %f", distanciaEntreDosAngulosRadianes(currentAngle,relative_angle));
+
+  double t0 = ros::Time::now().toSec();
+  double t1;
+
+
+
+    do{
+      ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
+      move(0,0,0,0,0,direction*speed);
+      ros::spinOnce();
+      loop_rate.sleep();
+      //move(0,0,0,0,0,0);
+      //ros::spinOnce();
+      //loop_rate.sleep();
+      float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
+      ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
+      if(distanceFromAngle <= 3){
+        ROS_INFO("Rotation %f Accomplished : %f",convertirAngulos(angle), drone_navdata.rotZ);
+        //ROS_INFO("DIfference rotation : %f", degreeDiference);
+        break;
+      }
+    }while(true);
+
+
+
+
+
+  hover(1);
+
+}
+
 float distanciaEntreDosAngulos(float ang1, float ang2){
+
+  //radianes
+
   float r;
   r =fmod(abs(ang2 - ang1),360);       // This is either the distance or 360 - distance
 
@@ -402,6 +461,19 @@ float distanciaEntreDosAngulos(float ang1, float ang2){
   else{
     return r;
   }
+
+}
+
+float distanciaEntreDosAngulosRadianes(float ang1, float ang2){
+
+  //radianes
+  float a1 = ang1*PI/180;
+  float a2 = ang2*PI/180;
+
+  float r;
+  r =fmod(abs(a1 - a2),2*PI);       // This is either the distance or 360 - distance
+
+return r;
 
 }
 

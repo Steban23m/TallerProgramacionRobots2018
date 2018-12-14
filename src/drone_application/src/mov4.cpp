@@ -329,7 +329,7 @@ void rotateDron180(bool clockwise, ros::Rate loop_rate){
 
 void rotateDronAngle(bool clockwise, float angle, ros::Rate loop_rate){
 
-  float initialZrot =drone_navdata.rotZ;
+  float initialZrot = drone_navdata.rotZ;
   int direction;
   if (clockwise) {
     direction=-1;
@@ -341,26 +341,44 @@ void rotateDronAngle(bool clockwise, float angle, ros::Rate loop_rate){
 
   float finalZRotation = convertirAngulos(initialZrot + angle*direction);
   ROS_INFO("Rotate Dron");
+
   ROS_INFO("Z rotation Initial : %f", initialZrot);
   ROS_INFO("Z rotation Destination : %f", finalZRotation);
-  float prevZvalue = initialZrot;
+  float currentAngle = initialZrot;
+  float speed=0.1;
+  float angular_speed = speed*2*PI/360;
+  float currentAngleRadians = initialZrot*2*PI/360;
+  float relative_angleradians = finalZRotation*2*PI/360;
 
-  do{
-    ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
-    move(0,0,0,0,0,direction*0.01);
-    ros::spinOnce();
-    loop_rate.sleep();
-    float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
-    ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
-    if(distanceFromAngle <= 1){
-      ROS_INFO("Rotation %f Accomplished : %f",convertirAngulos(angle), drone_navdata.rotZ);
-      //ROS_INFO("DIfference rotation : %f", degreeDiference);
-      break;
-    }
-  }while(true);
-hover(1);
+  //ROS_INFO("Distancia entre angulos: %f", distanciaEntreDosAngulosRadianes(currentAngle,relative_angle));
+
+  double t0 = ros::Time::now().toSec();
+  double t1;
 
 
+
+    do{
+      ROS_INFO("Z rotation : %f", drone_navdata.rotZ);
+      move(0,0,0,0,0,direction*speed);
+      ros::spinOnce();
+      loop_rate.sleep();
+      //move(0,0,0,0,0,0);
+      //ros::spinOnce();
+      //loop_rate.sleep();
+      float distanceFromAngle = distanciaEntreDosAngulos(finalZRotation,drone_navdata.rotZ);
+      ROS_INFO("Distancia entre %f y %f   : %f", drone_navdata.rotZ, finalZRotation,distanceFromAngle);
+      if(distanceFromAngle <= 3){
+        ROS_INFO("Rotation %f Accomplished : %f",convertirAngulos(angle), drone_navdata.rotZ);
+        //ROS_INFO("DIfference rotation : %f", degreeDiference);
+        break;
+      }
+    }while(true);
+
+
+
+
+
+  hover(1);
 
 }
 
